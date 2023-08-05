@@ -126,3 +126,84 @@ public extension OTTracer {
         )
     }
 }
+
+@available(iOS 13.0, tvOS 13.0, *)
+public extension OTTracer {
+    func trace<V>(
+        operationName: String,
+        tags: [String: Encodable]? = nil,
+        file: StaticString = #fileID,
+        line: UInt = #line,
+        work: () async throws -> V
+    ) async rethrows -> V {
+        let span = startSpan(
+            operationName: operationName,
+            childOf: Task.currentSpan?.context,
+            tags: tags
+        )
+
+        defer {
+            span.finish()
+        }
+
+        return try await Task.$currentSpan.withValue(span) {
+            do {
+                return try await work()
+            } catch {
+                span.setError(error, file: file, line: line)
+                throw error
+            }
+        }
+    }
+
+    func rootTrace<V>(
+        operationName: String,
+        tags: [String: Encodable]? = nil,
+        file: StaticString = #fileID,
+        line: UInt = #line,
+        work: () async throws -> V
+    ) async rethrows -> V {
+        let span = startRootSpan(
+            operationName: operationName,
+            tags: tags
+        )
+
+        defer {
+            span.finish()
+        }
+
+        return try await Task.$currentSpan.withValue(span) {
+            do {
+                return try await work()
+            } catch {
+                span.setError(error, file: file, line: line)
+                throw error
+            }
+        }
+    }
+}
+
+@available(iOS 13.0, tvOS 13.0, *)
+extension Task where Success == Never, Failure == Never {
+    @TaskLocal static var currentSpan: OTSpan?
+
+    public static func currentSpan(
+        file: StaticString = #file,
+        line: UInt = #line,
+        _ withSpan: (OTSpan) -> Void
+    ) {
+        guard let span = currentSpan else {
+            return assertionFailure("No trace is currently in progress", file: file, line: line)
+        }
+
+        withSpan(span)
+    }
+
+    public static func currentSpanIfTracing(
+        _ withSpan: (OTSpan) -> Void
+    ) {
+        if let span = currentSpan {
+            withSpan(span)
+        }
+    }
+}
