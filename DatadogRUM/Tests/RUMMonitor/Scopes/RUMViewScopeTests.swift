@@ -616,7 +616,7 @@ class RUMViewScopeTests: XCTestCase {
         XCTAssertEqual(event.synthetics?.resultId, fakeSyntheticsResultId)
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func testWhenAnotherViewIsStarted_itEndsTheScope() throws {
         let view1 = createMockView(viewControllerClassName: "FirstViewController")
         let view2 = createMockView(viewControllerClassName: "SecondViewController")

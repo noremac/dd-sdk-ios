@@ -97,7 +97,7 @@ class RUMTests: XCTestCase {
         XCTAssertEqual(crashReportReceiver?.sessionSampler.samplingRate, 100)
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func testWhenEnabledWithAllInstrumentations() throws {
         // Given
         config.uiKitViewsPredicate = UIKitRUMViewsPredicateMock()

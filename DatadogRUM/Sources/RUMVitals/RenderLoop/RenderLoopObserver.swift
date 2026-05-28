@@ -6,7 +6,9 @@
 
 import DatadogInternal
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 internal protocol RenderLoopReader: AnyObject {
     var isActive: Bool { get }
@@ -27,7 +29,7 @@ internal protocol RenderLoopObserver {
     func unregister(_ renderLoopReader: RenderLoopReader)
 }
 
-#if !os(watchOS)
+#if canImport(UIKit)
 /// A class reading information from the display vsync.
 internal class DisplayLinker {
     @ReadWriteLock

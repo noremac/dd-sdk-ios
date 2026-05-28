@@ -61,7 +61,7 @@ class MonitorTests: XCTestCase {
         XCTAssertFalse(rumContext.sessionSampler.isSampled)
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func testStartView_withViewController_itUsesClassNameAsViewName() throws {
         // Given
         let vc = createMockView(viewControllerClassName: "SomeViewController")

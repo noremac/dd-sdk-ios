@@ -5,11 +5,13 @@
  */
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 @_spi(objc)
 import DatadogInternal
 
-#if !os(watchOS)
+#if canImport(UIKit)
 internal struct UIKitRUMViewsPredicateBridge: UIKitRUMViewsPredicate {
     let objcPredicate: objc_UIKitRUMViewsPredicate
 
@@ -575,7 +577,7 @@ public class objc_RUMConfiguration: NSObject {
         get { swiftConfig.telemetrySampleRate }
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     public var uiKitViewsPredicate: objc_UIKitRUMViewsPredicate? {
         set { swiftConfig.uiKitViewsPredicate = newValue.map { UIKitRUMViewsPredicateBridge(objcPredicate: $0) } }
         get { (swiftConfig.uiKitViewsPredicate as? UIKitRUMViewsPredicateBridge)?.objcPredicate  }
@@ -757,7 +759,7 @@ public class objc_RUMMonitor: NSObject {
         swiftRUMMonitor.removeViewAttributes(forKeys: keys)
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     public func startView(
         viewController: UIViewController,
         name: String?,

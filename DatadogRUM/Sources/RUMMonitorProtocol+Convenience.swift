@@ -4,7 +4,9 @@
  * Copyright 2019-Present Datadog, Inc.
  */
 
+#if canImport(UIKit)
 import UIKit
+#endif
 import Foundation
 import DatadogInternal
 
@@ -20,7 +22,7 @@ import DatadogInternal
 public extension RUMMonitorProtocol {
     // MARK: - views
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     /// Starts RUM view.
     /// - Parameters:
     ///   - viewController: the instance of `UIViewController` representing this view.

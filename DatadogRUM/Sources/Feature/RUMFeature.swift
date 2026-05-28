@@ -6,7 +6,10 @@
 
 import Foundation
 import DatadogInternal
+
+#if canImport(UIKit)
 import UIKit
+#endif
 
 internal final class RUMFeature: DatadogRemoteFeature, RUMSessionSamplerProvider {
     static var name: String { Feature.rum }
@@ -88,7 +91,7 @@ internal final class RUMFeature: DatadogRemoteFeature, RUMSessionSamplerProvider
 
         let firstFrameReader = FirstFrameReader(dateProvider: configuration.dateProvider, mediaTimeProvider: configuration.mediaTimeProvider)
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         if #available(iOS 13.0, tvOS 13.0, *), configuration.collectAccessibility {
              accessibilityReader = AccessibilityReader(notificationCenter: configuration.notificationCenter)
         }
@@ -212,7 +215,7 @@ internal final class RUMFeature: DatadogRemoteFeature, RUMSessionSamplerProvider
         firstFrameReader.publish(to: monitor)
         dependencies.renderLoopObserver?.register(firstFrameReader)
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         var memoryWarningMonitor: MemoryWarningMonitor?
         if configuration.trackMemoryWarnings {
             let memoryWarningReporter = MemoryWarningReporter()
@@ -322,7 +325,7 @@ internal final class RUMFeature: DatadogRemoteFeature, RUMSessionSamplerProvider
         )
 
         // Send configuration telemetry:
-        #if !os(watchOS)
+        #if canImport(UIKit)
         let swiftUIViewTrackingEnabled = configuration.swiftUIViewsPredicate != nil
         let swiftUIActionTrackingEnabled = configuration.swiftUIActionsPredicate != nil
         let trackNativeViews = configuration.uiKitViewsPredicate != nil

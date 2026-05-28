@@ -6,14 +6,17 @@
 
 import DatadogInternal
 import Foundation
+
+#if canImport(UIKit)
 import UIKit
+#endif
 
 internal protocol AccessibilityReading {
     /// The current accessibility state containing all accessibility settings
     var state: AccessibilityInfo { get }
 }
 
-#if !os(watchOS)
+#if canImport(UIKit)
 @available(iOS 13.0, tvOS 13.0, *)
 internal final class AccessibilityReader: AccessibilityReading {
     @ReadWriteLock

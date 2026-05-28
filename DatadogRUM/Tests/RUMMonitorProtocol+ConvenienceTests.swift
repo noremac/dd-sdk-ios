@@ -22,7 +22,7 @@ class RUMMonitorProtocol_ConvenienceTests: XCTestCase {
         )
 
         // When & Then (no crash)
-        #if !os(watchOS)
+        #if canImport(UIKit)
         monitor.startView(viewController: mockView)
         monitor.stopView(viewController: mockView)
         #endif

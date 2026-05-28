@@ -5,7 +5,9 @@
  */
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 /// A class reading the refresh rate (frames per second) of the main screen
 internal class VitalRefreshRateReader: ContinuousVitalReader {

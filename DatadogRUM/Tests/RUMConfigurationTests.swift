@@ -16,7 +16,7 @@ class RUMConfigurationTests: XCTestCase {
         XCTAssertEqual(config.applicationID, "app-id")
         XCTAssertEqual(config.sessionSampleRate, 100)
         XCTAssertEqual(config.telemetrySampleRate, 20)
-        #if !os(watchOS)
+        #if canImport(UIKit)
         XCTAssertNil(config.uiKitViewsPredicate)
         XCTAssertNil(config.uiKitActionsPredicate)
         XCTAssertNil(config.swiftUIViewsPredicate)

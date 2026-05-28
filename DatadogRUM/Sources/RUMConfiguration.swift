@@ -6,7 +6,7 @@
 
 import Foundation
 import DatadogInternal
-#if !os(watchOS)
+#if canImport(UIKit)
 import QuartzCore
 #endif
 
@@ -64,7 +64,7 @@ extension RUM {
         /// Default: `100.0`.
         public var sessionSampleRate: Float
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         /// The predicate for automatically tracking `UIViewControllers` as RUM views.
         ///
         /// RUM will query this predicate for each `UIViewController` presented in the app. The predicate implementation
@@ -80,7 +80,7 @@ extension RUM {
         public var uiKitViewsPredicate: UIKitRUMViewsPredicate?
         #endif
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         /// The predicate for automatically tracking `UITouch` events as RUM actions.
         ///
         /// RUM will query this predicate for each `UIView` that the user interacts with. The predicate implementation
@@ -98,7 +98,7 @@ extension RUM {
         public var uiKitActionsPredicate: UIKitRUMActionsPredicate?
         #endif
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         /// The predicate for automatically tracking SwiftUI views as RUM views.
         ///
         /// RUM will query this predicate for each SwiftUI view detected through hosting controllers. The SDK extracts
@@ -117,7 +117,7 @@ extension RUM {
         public var swiftUIViewsPredicate: SwiftUIRUMViewsPredicate?
         #endif
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         /// The predicate for automatically tracking `UITouch` events as RUM actions.
         ///
         /// RUM will query this predicate for each view that the user interacts with. The predicate implementation
@@ -296,7 +296,7 @@ extension RUM {
         /// Default: `true`.
         public var trackAnonymousUser: Bool
 
-        #if !os(watchOS)
+        #if canImport(UIKit)
         /// Enables the collection of memory warnings.
         ///
         /// When enabled, all the memory warnings are reported as RUM Errors.
@@ -412,7 +412,7 @@ extension RUM {
         /// The default notification center used for subscribing to app lifecycle events and system notifications.
         internal var notificationCenter: NotificationCenter = .default
         /// The factory to create the frame info provider. Defaults to the `CADisplayLink`.
-        #if !os(watchOS)
+        #if canImport(UIKit)
         internal var frameInfoProviderFactory: (Any, Selector) -> FrameInfoProvider = { CADisplayLink(target: $0, selector: $1) }
         #endif
         /// The bundle object that contains the current executable.
@@ -549,7 +549,7 @@ extension RUM.Configuration {
     ///   Use manual tracking APIs instead:
     ///   - `RUMMonitor.shared().startView(key:name:attributes:)` for view tracking
     ///   - `RUMMonitor.shared().addAction(type:name:attributes:)` for action tracking
-    #if !os(watchOS)
+    #if canImport(UIKit)
     public init(
         applicationID: String,
         sessionSampleRate: SampleRate = .maxSampleRate,

@@ -21,8 +21,11 @@ internal class VitalCPUReader: SamplingBasedVitalReader {
         telemetry: Telemetry = NOPTelemetry()
     ) {
         self.telemetry = telemetry
+
+      #if canImport(UIKit) || canImport(WatchKit)
         notificationCenter.addObserver(self, selector: #selector(appWillResignActive), name: ApplicationNotifications.willResignActive, object: nil)
         notificationCenter.addObserver(self, selector: #selector(appDidBecomeActive), name: ApplicationNotifications.didBecomeActive, object: nil)
+      #endif
     }
 
     func readVitalData() -> Double? {

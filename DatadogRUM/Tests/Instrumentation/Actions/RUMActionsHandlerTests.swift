@@ -13,7 +13,7 @@ class RUMActionsHandlerTests: XCTestCase {
     private let dateProvider = RelativeDateProvider(using: .mockDecember15th2019At10AMUTC())
     private let commandSubscriber = RUMCommandSubscriberMock()
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     private func touchHandler(
         with uiKitPredicate: UITouchRUMActionsPredicate = DefaultUIKitRUMActionsPredicate(),
         swiftUIPredicate: SwiftUIRUMActionsPredicate = DefaultSwiftUIRUMActionsPredicate(isLegacyDetectionEnabled: true),
@@ -60,7 +60,7 @@ class RUMActionsHandlerTests: XCTestCase {
 
     // MARK: - UIKit Automatic Action Tracking
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
 
     func testGivenUIKitViewWithAccessibilityIdentifier_whenSingleTouchEnds_itSendsRUMAction() {
         // Given
@@ -541,7 +541,7 @@ class RUMActionsHandlerTests: XCTestCase {
 
 // MARK: - Helpers
 
-#if !os(watchOS)
+#if canImport(UIKit)
 
 private extension UIView {
     func attached(to parent: UIView) -> UIView {

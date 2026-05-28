@@ -15,7 +15,7 @@ class RUMViewsHandlerTests: XCTestCase {
     private let notificationCenter = NotificationCenter()
 
     // MARK: - Helper
-    #if !os(watchOS)
+    #if canImport(UIKit)
     private func createHandler(
         uiKitPredicate: UIKitRUMViewsPredicate? = nil,
         swiftUIPredicate: SwiftUIRUMViewsPredicate? = nil,
@@ -41,7 +41,7 @@ class RUMViewsHandlerTests: XCTestCase {
 
     // MARK: - Handling `viewDidAppear`
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func testGivenUIKitPredicate_whenViewDidAppear_itStartsRUMView() throws {
         let viewName: String = .mockRandom()
         let viewControllerClassName: String = .mockRandom()

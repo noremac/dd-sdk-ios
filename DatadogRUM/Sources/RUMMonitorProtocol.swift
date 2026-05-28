@@ -4,7 +4,9 @@
  * Copyright 2019-Present Datadog, Inc.
  */
 
+#if canImport(UIKit)
 import UIKit
+#endif
 import Foundation
 import DatadogInternal
 
@@ -412,7 +414,7 @@ public protocol RUMMonitorViewProtocol: AnyObject {
     /// - Parameter keys: array of attribute keys that will be removed.
     func removeViewAttributes(forKeys keys: [AttributeKey])
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     /// Starts RUM view.
     /// - Parameters:
     ///   - viewController: the instance of `UIViewController` representing this view.
@@ -544,7 +546,7 @@ extension NOPMonitor: RUMMonitorViewProtocol {
     func removeViewAttribute(forKey key: AttributeKey) { warn() }
     func removeViewAttributes(forKeys keys: [AttributeKey]) { warn() }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func startView(viewController: UIViewController, name: String?, attributes: [AttributeKey: AttributeValue]) { warn() }
     func stopView(viewController: UIViewController, attributes: [AttributeKey: AttributeValue]) { warn() }
     #endif

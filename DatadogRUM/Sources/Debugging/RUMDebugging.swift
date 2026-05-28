@@ -5,10 +5,11 @@
  */
 
 import Foundation
-import UIKit
 import DatadogInternal
 
-#if !os(watchOS)
+#if canImport(UIKit)
+import UIKit
+
 private struct RUMDebugInfo {
     struct View {
         let name: String
@@ -30,7 +31,7 @@ private struct RUMDebugInfo {
 #endif
 
 internal class RUMDebugging {
-    #if !os(watchOS)
+    #if canImport(UIKit)
     /// An overlay view renderd on top of the app content. It is created lazily on first draw.
     private var canvas: UIView? = nil
     #endif
@@ -68,7 +69,7 @@ internal class RUMDebugging {
     init() { }
 
     deinit {
-        #if !os(watchOS)
+        #if canImport(UIKit)
         DispatchQueue.main.async { [weak canvas] in
             canvas?.removeFromSuperview()
         }
@@ -79,7 +80,7 @@ internal class RUMDebugging {
     // MARK: - Internal
 
     func debug(applicationScope: RUMApplicationScope) {
-        #if !os(watchOS)
+        #if canImport(UIKit)
         // `RUMDebugInfo` must be created on the caller thread.
         let debugInfo = RUMDebugInfo(applicationScope: applicationScope)
 
@@ -92,7 +93,7 @@ internal class RUMDebugging {
 
     // MARK: - Private
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     private func renderOnMainThread(rumDebugInfo: RUMDebugInfo) {
         if canvas == nil {
             canvas = RUMDebugView(frame: .zero)
@@ -135,7 +136,7 @@ internal class RUMDebugging {
     #endif
 }
 
-#if !os(watchOS)
+#if canImport(UIKit)
 internal class RUMViewOutline: RUMDebugView {
     private struct Constants {
         static let activeViewColor = #colorLiteral(red: 0.3882352941, green: 0.1725490196, blue: 0.6509803922, alpha: 1)

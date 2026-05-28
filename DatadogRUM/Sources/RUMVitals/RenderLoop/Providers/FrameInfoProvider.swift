@@ -5,7 +5,9 @@
  */
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 /// Facade for `CADisplayLink` to provide frame timestamps & device information
 /// It decouple FPS calculation from `CADisplayLink` implementation.
@@ -40,7 +42,7 @@ extension FrameInfoProvider {
     }
 }
 
-#if !os(watchOS)
+#if canImport(UIKit)
 extension CADisplayLink: FrameInfoProvider {
     var maximumDeviceFramesPerSecond: Int {
         #if swift(>=5.9) && os(visionOS)

@@ -28,7 +28,7 @@ class ViewIdentifierTests: XCTestCase {
         XCTAssertFalse(identity1 == identity2)
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func testGivenTwoUIViewControllers_whenComparingTheirRUMViewIdentity_itEqualsOnlyForTheSameInstance() {
         // Given
         let vc1 = createMockView(viewControllerClassName: .mockRandom(among: .alphanumerics))

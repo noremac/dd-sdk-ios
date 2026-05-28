@@ -4,7 +4,8 @@
  * Copyright 2019-Present Datadog, Inc.
  */
 
-import UIKit
+import Foundation
+
 import DatadogInternal
 
 internal extension RUMMethod {
@@ -616,7 +617,7 @@ extension Monitor: RUMMonitorViewProtocol {
         )
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func startView(viewController: UIViewController, name: String?, attributes: [AttributeKey: AttributeValue]) {
         process(
             command: RUMStartViewCommand(

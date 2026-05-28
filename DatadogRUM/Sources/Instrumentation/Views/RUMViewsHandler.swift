@@ -5,7 +5,9 @@
  */
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 import DatadogInternal
 
 // MARK: - RUMViewsHandler
@@ -34,7 +36,7 @@ internal final class RUMViewsHandler {
     /// The current date provider.
     private let dateProvider: DateProvider
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     /// `UIKit` view predicate. `nil` if `UIKit` auto-instrumentations is
     /// disabled.
     private let uiKitPredicate: UIKitRUMViewsPredicate?
@@ -66,7 +68,7 @@ internal final class RUMViewsHandler {
     /// if the last item disappears.
     private var stack: [View] = []
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     /// Creates a new `SwiftUI.View` handler to publish RUM view commands.
     /// - Parameters:
     ///   - dateProvider: The current date provider.
@@ -111,6 +113,7 @@ internal final class RUMViewsHandler {
         self.dateProvider = dateProvider
         self.notificationCenter = notificationCenter
 
+#if canImport(UIKit) || canImport(WatchKit)
         notificationCenter.addObserver(
             self,
             selector: #selector(applicationDidEnterBackground),
@@ -123,10 +126,12 @@ internal final class RUMViewsHandler {
             name: ApplicationNotifications.willEnterForeground,
             object: nil
         )
+      #endif
     }
     #endif
 
     deinit {
+#if canImport(UIKit) || canImport(WatchKit)
         notificationCenter?.removeObserver(
             self,
             name: ApplicationNotifications.didEnterBackground,
@@ -137,6 +142,7 @@ internal final class RUMViewsHandler {
             name: ApplicationNotifications.willEnterForeground,
             object: nil
         )
+      #endif
     }
 
     func publish(to subscriber: RUMCommandSubscriber) {
@@ -253,7 +259,7 @@ internal final class RUMViewsHandler {
 }
 
 // MARK: - UIViewControllerHandler
-#if !os(watchOS)
+#if canImport(UIKit)
 extension RUMViewsHandler: UIViewControllerHandler {
     func notify_viewDidAppear(viewController: UIViewController, animated: Bool) {
         let identity = ViewIdentifier(viewController)

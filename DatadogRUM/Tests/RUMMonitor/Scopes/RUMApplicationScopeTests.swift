@@ -104,7 +104,7 @@ class RUMApplicationScopeTests: XCTestCase {
         recorder.assertSamplingDecisions([false])
     }
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     func testWhenSessionExpires_itStartsANewOneAndTransfersActiveViews() throws {
         recorder.assertSamplingDecisions([])
 

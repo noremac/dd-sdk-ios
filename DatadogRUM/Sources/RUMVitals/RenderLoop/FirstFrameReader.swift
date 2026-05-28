@@ -5,7 +5,7 @@
  */
 
 import DatadogInternal
-import UIKit
+import Foundation
 
 /// Class that reads the first frame presented to the user.
 internal final class FirstFrameReader: RUMCommandPublisher {

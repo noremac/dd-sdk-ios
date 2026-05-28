@@ -24,7 +24,7 @@ internal final class RUMInstrumentation: RUMCommandPublisher {
     /// It is non-optional as we can't know if SwiftUI manual instrumentation will be used or not.
     let actionsHandler: RUMActionsHandling
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     /// Swizzles `UIViewController` for intercepting its lifecycle callbacks.
     /// It is `nil` (no swizzling) if RUM View automatic instrumentation is not enabled.
     let viewControllerSwizzler: UIViewControllerSwizzler?
@@ -55,7 +55,7 @@ internal final class RUMInstrumentation: RUMCommandPublisher {
 
     // MARK: - Initialization
 
-    #if !os(watchOS)
+    #if canImport(UIKit)
     init(
         featureScope: FeatureScope,
         uiKitRUMViewsPredicate: UIKitRUMViewsPredicate?,
@@ -241,7 +241,7 @@ internal final class RUMInstrumentation: RUMCommandPublisher {
 
     deinit {
         // Disable configured instrumentations:
-        #if !os(watchOS)
+        #if canImport(UIKit)
         viewControllerSwizzler?.unswizzle()
         uiApplicationSwizzler?.unswizzle()
         #if !os(tvOS)
@@ -257,7 +257,7 @@ internal final class RUMInstrumentation: RUMCommandPublisher {
     func publish(to subscriber: RUMCommandSubscriber) {
         viewsHandler.publish(to: subscriber)
         actionsHandler.publish(to: subscriber)
-        #if !os(watchOS) && !os(tvOS)
+        #if canImport(UIKit) && !os(tvOS)
         scrollHandler?.publish(to: subscriber)
         #endif
         longTasks?.publish(to: subscriber)

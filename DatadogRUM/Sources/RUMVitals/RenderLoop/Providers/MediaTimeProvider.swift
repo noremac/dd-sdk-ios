@@ -5,7 +5,7 @@
  */
 
 import Foundation
-#if !os(watchOS)
+#if canImport(UIKit)
 import QuartzCore
 #endif
 
@@ -20,7 +20,7 @@ public struct MediaTimeProvider: CACurrentMediaTimeProvider {
     /// Returns the current CoreAnimation absolute time.
     /// This is the result of calling mach_absolute_time() and converting the units to seconds.
     public var current: CFTimeInterval {
-#if !os(watchOS)
+#if canImport(UIKit)
         return CACurrentMediaTime()
 #else
         ProcessInfo.processInfo.systemUptime
